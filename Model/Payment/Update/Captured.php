@@ -29,7 +29,7 @@ class Captured
     public function apply($payment, $order = null)
     {
         if (!empty($order)) {
-            $this->_assertValidPaymentStatusTransition($order, $this->_getAllowedPaymentStatuses());
+            // $this->_assertValidPaymentStatusTransition($order, $this->_getAllowedPaymentStatuses());
             $order->capture();
             $this->_worldPayPayment->updateWorldPayPayment($this->_paymentState);
         }
