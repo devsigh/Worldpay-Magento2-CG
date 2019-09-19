@@ -60,6 +60,9 @@ class OrderSyncStatus {
      */
     public function execute()
     {
+        $this->_logger->info('Disabling CRON');
+        return $this;
+        
         $this->_logger->info('Orders sync status executed on - '.date('Y-m-d H:i:s'));
         $orderIds = $this->getOrderIds();
         
