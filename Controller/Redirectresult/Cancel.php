@@ -69,6 +69,11 @@ class Cancel extends \Magento\Framework\App\Action\Action
         // We need to cancel these orders due to workflow. 
         if ($magentoorder->canCancel()) {
             $magentoorder->cancel();
+            $magentoorder->setState(\Magento\Sales\Model\Order::STATE_CLOSED);
+            $magentoorder->setStatus(\Magento\Sales\Model\Order::STATE_CLOSED);
+
+            $magentoorder->save();
+
         }
         return $this->resultRedirectFactory->create()->setPath('checkout/cart', ['_current' => true]);
     }
