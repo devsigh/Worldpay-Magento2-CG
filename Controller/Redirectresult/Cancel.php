@@ -66,6 +66,10 @@ class Cancel extends \Magento\Framework\App\Action\Action
                 $this->_applyPaymentUpdate(PaymentStateResponse::createFromCancelledResponse($params), $order);
             }
         }
+        // We need to cancel these orders due to workflow. 
+        if ($magentoorder->canCancel()) {
+            $magentoorder->cancel();
+        }
         return $this->resultRedirectFactory->create()->setPath('checkout/cart', ['_current' => true]);
     }
 
