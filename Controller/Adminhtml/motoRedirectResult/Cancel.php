@@ -55,18 +55,6 @@ class Cancel extends \Magento\Backend\App\Action
     public function execute()
     {
         $this->wplogger->info('worldpay returned admin cancel url');
-        $worldPayOrder = $this->_getWorldPayOrder();
-
-        $notice = $this->_getCancellationNoticeForOrder($worldPayOrder->getOrder());
-        $this->messageManager->getMessages(true);
-        $this->messageManager->addNotice($notice);
-        $this->adminorderservice->reactivateAdminQuoteForOrder($worldPayOrder);
-
-        $params = $this->getRequest()->getParams();
-        if ($this->authenticatinservice->requestAuthenticated($params)) {
-            $this->_applyPaymentUpdate(PaymentStateResponse::createFromCancelledResponse($params), $worldPayOrder);
-        }
-
         return $this->_redirectToCreateOrderPage();
     }
 
@@ -98,7 +86,9 @@ class Cancel extends \Magento\Backend\App\Action
      */
     private function _getOrderIncrementId()
     {
+
         $params = $this->getRequest()->getParams();
+
         preg_match('/\^(\d+)-/', $params['orderKey'], $matches);
         return $matches[1];
     }
@@ -121,7 +111,7 @@ class Cancel extends \Magento\Backend\App\Action
     private function _redirectToCreateOrderPage()
     {
         $resultRedirect = $this->resultRedirectFactory->create();
-        $resultRedirect->setPath('sales/order_create/index');
+        $resultRedirect->setPath('sales/order/index');
         return $resultRedirect; 
     }
  
